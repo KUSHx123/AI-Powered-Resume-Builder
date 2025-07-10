@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -61,6 +62,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ onStartBuilding }: HeroSectionProps) {
+  const navigate = useNavigate();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [typedText, setTypedText] = useState('');
@@ -121,8 +123,7 @@ export function HeroSection({ onStartBuilding }: HeroSectionProps) {
         scrollToSection('templates-section');
         break;
       case 'pricing':
-        // For now, scroll to pricing section. Later can be a separate page
-        scrollToSection('pricing-section');
+        navigate('/pricing');
         break;
       case 'start':
         onStartBuilding();

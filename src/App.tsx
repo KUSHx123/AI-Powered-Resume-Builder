@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { ResumeProvider } from '@/contexts/ResumeContext';
 import { HeroSection } from '@/components/HeroSection';
 import { Header } from '@/components/layout/Header';
@@ -15,8 +16,9 @@ import './App.css';
 
 function AppContent() {
   const { state } = useResume();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [showOnboarding, setShowOnboarding] = useState(!state.onboardingComplete);
-  const [showHero, setShowHero] = useState(true);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
@@ -50,8 +52,7 @@ function AppContent() {
   };
 
   const handleStartBuilding = () => {
-    setShowHero(false);
-    setShowOnboarding(false);
+    navigate('/builder');
   };
 
   const handleTogglePreview = () => {
@@ -63,7 +64,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
       <AnimatePresence mode="wait">
         {showOnboarding && (
           <motion.div
@@ -77,29 +78,58 @@ function AppContent() {
         )}
       </AnimatePresence>
 
-      {!showOnboarding && showHero && (
-        <HeroSection onStartBuilding={handleStartBuilding} />
-      )}
-
-      {!showOnboarding && !showHero && (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Header
-            onExportPDF={handleExportPDF}
-            onTogglePreview={handleTogglePreview}
-            showPreview={showPreview}
-            onOpenTemplates={handleOpenTemplates}
+      {!showOnboarding && (
+        <Routes>
+          <Route 
+            path="/" 
+            element={<HeroSection onStartBuilding={handleStartBuilding} />} 
           />
-          
-          <main className="container mx-auto px-4 py-8">
-            <ResumeBuilder showPreview={showPreview} />
-          </main>
-        </motion.div>
-        </div>
+          <Route 
+            path="/builder" 
+            element={
+              <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Header
+                    onExportPDF={handleExportPDF}
+                    onTogglePreview={handleTogglePreview}
+                    showPreview={showPreview}
+                    onOpenTemplates={handleOpenTemplates}
+                  />
+                  
+                  <main className="container mx-auto px-4 py-8">
+                    <ResumeBuilder showPreview={showPreview} />
+                  </main>
+                </motion.div>
+              </div>
+            } 
+          />
+          <Route 
+            path="/pricing" 
+            element={
+              <div className="min-h-screen bg-white">
+                <div className="max-w-7xl mx-auto px-6 py-24">
+                  <div className="text-center mb-16">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-4">Pricing Plans</h1>
+                    <p className="text-xl text-gray-600">Choose the perfect plan for your needs</p>
+                  </div>
+                  {/* Pricing content will be here */}
+                  <div className="text-center">
+                    <button 
+                      onClick={() => navigate('/')}
+                      className="text-blue-600 hover:text-blue-800"
+                    >
+                      ← Back to Home
+                    </button>
+                  </div>
+                </div>
+              </div>
+            } 
+          />
+        </Routes>
       )}
 
       <TemplateSelector

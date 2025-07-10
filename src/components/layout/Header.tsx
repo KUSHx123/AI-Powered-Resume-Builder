@@ -1,4 +1,5 @@
 import { Moon, Sun, Download, Save, Eye, Palette } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useResume } from '@/contexts/ResumeContext';
 import { motion } from 'framer-motion';
@@ -18,6 +19,7 @@ interface HeaderProps {
 
 export function Header({ onExportPDF, onTogglePreview, showPreview, onOpenTemplates }: HeaderProps) {
   const { state, toggleDarkMode, saveToLocalStorage } = useResume();
+  const navigate = useNavigate();
 
   return (
     <motion.header
@@ -28,9 +30,10 @@ export function Header({ onExportPDF, onTogglePreview, showPreview, onOpenTempla
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <motion.h1 
+            <motion.h1
+              onClick={() => navigate('/')}
               className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, cursor: 'pointer' }}
             >
               ResumeBuilder Pro
             </motion.h1>
