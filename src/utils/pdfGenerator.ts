@@ -52,7 +52,7 @@ export async function generatePDF(resumeData: ResumeData, templateId: string): P
   }
 }
 
-function generateResumeHTML(data: ResumeData, templateId: string): string {
+function generateResumeHTML(data: ResumeData): string {
   const formatDate = (dateString: string) => {
     if (!dateString) return '';
     const date = new Date(dateString);

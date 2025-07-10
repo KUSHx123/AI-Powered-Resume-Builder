@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { ResumeData, ResumeTemplate } from '@/types/resume';
+import { ResumeData } from '@/types/resume';
 
 interface ResumeState {
   data: ResumeData;

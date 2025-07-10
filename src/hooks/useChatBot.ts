@@ -1,11 +1,6 @@
 import { useState, useCallback } from 'react';
 import { ResumeData } from '@/types/resume';
 
-interface ChatBotRequest {
-  message: string;
-  resumeData: ResumeData;
-}
-
 interface ChatBotResponse {
   message: string;
   suggestions?: string[];
