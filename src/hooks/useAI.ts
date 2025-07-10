@@ -1,43 +1,11 @@
 import { useState, useCallback } from 'react';
+import OpenAI from 'openai';
 import { AIRequest, AIResponse } from '@/types/resume';
 
-// Mock AI responses for demonstration
-// In production, this would connect to OpenAI API
-const mockAIResponses = {
-  'bullet-points': {
-    'software engineer': [
-      'Developed scalable web applications serving 10,000+ users',
-      'Implemented RESTful APIs using Node.js and Express framework',
-      'Optimized database queries resulting in 40% performance improvement',
-      'Collaborated with cross-functional teams using Agile methodologies',
-      'Mentored junior developers and conducted code reviews',
-    ],
-    'product manager': [
-      'Led product strategy and roadmap for flagship mobile application',
-      'Coordinated with engineering teams to deliver features on schedule',
-      'Analyzed user feedback and metrics to drive product improvements',
-      'Managed stakeholder communications and project timelines',
-      'Increased user engagement by 25% through data-driven decisions',
-    ],
-    'marketing manager': [
-      'Developed and executed multi-channel marketing campaigns',
-      'Managed social media presence across 5+ platforms',
-      'Increased brand awareness by 35% through strategic partnerships',
-      'Analyzed campaign performance and optimized for better ROI',
-      'Led team of 3 marketing specialists and coordinated projects',
-    ],
-  },
-  summary: {
-    'software engineer': 'Passionate software engineer with 5+ years of experience building scalable web applications and leading development teams. Expertise in React, Node.js, and cloud technologies with a focus on delivering high-quality solutions.',
-    'product manager': 'Results-driven product manager with expertise in translating business requirements into technical solutions. Proven track record of launching successful products and driving user growth through data-driven decision making.',
-    'marketing manager': 'Creative marketing professional with extensive experience in digital marketing, brand management, and campaign optimization. Skilled at developing comprehensive strategies that drive engagement and revenue growth.',
-  },
-  skills: {
-    'software engineer': ['React', 'TypeScript', 'Node.js', 'Python', 'AWS', 'Docker', 'Git', 'Agile'],
-    'product manager': ['Product Strategy', 'User Research', 'Data Analysis', 'Agile', 'Jira', 'Figma', 'SQL'],
-    'marketing manager': ['Digital Marketing', 'SEO/SEM', 'Social Media', 'Google Analytics', 'Content Strategy', 'Adobe Creative Suite'],
-  },
-};
+const openai = new OpenAI({
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true
+});
 
 export function useAI() {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,38 +16,74 @@ export function useAI() {
     setError(null);
 
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      const contextKey = request.jobTitle?.toLowerCase() || 'software engineer';
+      let prompt = '';
       
-      let suggestions: string[] = [];
-
       switch (request.type) {
         case 'bullet-points':
-          suggestions = mockAIResponses['bullet-points'][contextKey as keyof typeof mockAIResponses['bullet-points']] || 
-                       mockAIResponses['bullet-points']['software engineer'];
+          prompt = `Generate 5 professional bullet points for a ${request.jobTitle || 'professional'} role. Each bullet point should:
+          - Start with a strong action verb
+          - Include specific, quantifiable achievements when possible
+          - Be concise and impactful
+          - Focus on results and accomplishments
+          
+          Context: ${request.context}
+          
+          Return only the bullet points, one per line, without numbers or dashes.`;
           break;
+          
         case 'summary':
-          suggestions = [mockAIResponses.summary[contextKey as keyof typeof mockAIResponses.summary] || 
-                        mockAIResponses.summary['software engineer']];
+          prompt = `Write a professional summary for a ${request.jobTitle || 'professional'} that is 2-3 sentences long. The summary should:
+          - Highlight key strengths and experience
+          - Include relevant skills and expertise
+          - Mention career goals or value proposition
+          - Be compelling and concise
+          
+          Context: ${request.context}
+          
+          Return only the summary paragraph.`;
           break;
+          
         case 'skills':
-          suggestions = mockAIResponses.skills[contextKey as keyof typeof mockAIResponses.skills] || 
-                       mockAIResponses.skills['software engineer'];
+          prompt = `Suggest 8-10 relevant skills for a ${request.jobTitle || 'professional'} role. Include a mix of:
+          - Technical skills
+          - Soft skills
+          - Industry-specific competencies
+          
+          Context: ${request.context}
+          
+          Return only the skill names, one per line, without categories or descriptions.`;
           break;
       }
 
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content: "You are a professional resume writing assistant. Provide clear, concise, and impactful content that helps job seekers stand out."
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        max_tokens: 500,
+        temperature: 0.7,
+      });
+
+      const content = completion.choices[0]?.message?.content || '';
+      const suggestions = content.split('\n').filter(line => line.trim().length > 0);
+
       return {
-        suggestions: suggestions.slice(0, 5),
+        suggestions,
         generated: true,
       };
-    } catch (err) {
-      setError('Failed to generate content. Please try again.');
-      return {
-        suggestions: [],
-        generated: false,
-      };
+    } catch (err: any) {
+      console.error('OpenAI API Error:', err);
+      setError(err.message || 'Failed to generate content. Please try again.');
+      
+      // Fallback to mock responses if API fails
+      return getFallbackResponse(request);
     } finally {
       setIsLoading(false);
     }
@@ -89,5 +93,25 @@ export function useAI() {
     generateContent,
     isLoading,
     error,
+  };
+}
+
+// Fallback mock responses in case API fails
+function getFallbackResponse(request: AIRequest): AIResponse {
+  const mockResponses = {
+    'bullet-points': [
+      'Developed scalable web applications serving 10,000+ users',
+      'Implemented RESTful APIs using modern frameworks',
+      'Optimized database queries resulting in 40% performance improvement',
+      'Collaborated with cross-functional teams using Agile methodologies',
+      'Mentored junior developers and conducted code reviews',
+    ],
+    summary: 'Passionate professional with extensive experience in delivering high-quality solutions. Expertise in modern technologies with a focus on scalable applications and team leadership.',
+    skills: ['JavaScript', 'React', 'Node.js', 'Python', 'AWS', 'Docker', 'Git', 'Agile'],
+  };
+
+  return {
+    suggestions: mockResponses[request.type] || [],
+    generated: false,
   };
 }

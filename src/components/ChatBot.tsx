@@ -346,7 +346,7 @@ export function ChatBot() {
                     </Button>
                   </div>
                   <p className="text-xs text-gray-500 mt-2">
-                    Press Enter to send • AI responses are simulated for demo
+                    Press Enter to send • Powered by OpenAI GPT-3.5
                   </p>
                 </div>
               </CardContent>
