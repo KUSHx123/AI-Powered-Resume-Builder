@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { useResume } from '@/contexts/ResumeContext';
 import { useAI } from '@/hooks/useAI';
 import { Experience } from '@/types/resume';
@@ -184,7 +183,7 @@ export function ExperienceForm() {
         <div className="space-y-6">
           {/* Experience List */}
           <AnimatePresence>
-            {state.data.experience.map((experience, index) => (
+            {state.data.experience.map((experience) => (
               <motion.div
                 key={experience.id}
                 initial={{ opacity: 0, y: 20 }}

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useResume } from '@/contexts/ResumeContext';
-import { Check, Palette, Sparkles, FileText, Briefcase } from 'lucide-react';
+import { Check, Palette, Sparkles } from 'lucide-react';
 
 const templates = [
   {

@@ -110,7 +110,7 @@ export function ResumePreview() {
               Professional Experience
             </h2>
             <div className="space-y-6">
-              {data.experience.map((exp, index) => (
+              {data.experience.map((exp) => (
                 <div key={exp.id} className="border-l-2 border-blue-200 dark:border-blue-800 pl-4">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2">
                     <div>
@@ -155,7 +155,7 @@ export function ResumePreview() {
               Education
             </h2>
             <div className="space-y-4">
-              {data.education.map((edu, index) => (
+              {data.education.map((edu) => (
                 <div key={edu.id} className="border-l-2 border-green-200 dark:border-green-800 pl-4">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-1">
                     <div>
@@ -226,7 +226,7 @@ export function ResumePreview() {
               Projects
             </h2>
             <div className="space-y-4">
-              {data.projects.map((project, index) => (
+              {data.projects.map((project) => (
                 <div key={project.id} className="border-l-2 border-purple-200 dark:border-purple-800 pl-4">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2">
                     <div>

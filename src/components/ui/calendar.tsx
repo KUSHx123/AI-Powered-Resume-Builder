@@ -11,6 +11,7 @@ function Calendar({
   className,
   classNames,
   showOutsideDays = true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: CalendarProps) {
   return (
@@ -66,5 +67,6 @@ function Calendar({
   );
 }
 Calendar.displayName = 'Calendar';
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ...props
 export { Calendar };

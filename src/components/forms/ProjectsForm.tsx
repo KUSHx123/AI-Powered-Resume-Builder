@@ -146,7 +146,7 @@ export function ProjectsForm() {
         <div className="space-y-6">
           {/* Projects List */}
           <AnimatePresence>
-            {state.data.projects.map((project, index) => (
+            {state.data.projects.map((project) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}

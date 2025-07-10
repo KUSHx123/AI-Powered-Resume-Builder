@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { useResume } from '@/contexts/ResumeContext';
 import { Education } from '@/types/resume';
 import { toast } from 'sonner';
@@ -116,7 +115,7 @@ export function EducationForm() {
         <div className="space-y-6">
           {/* Education List */}
           <AnimatePresence>
-            {state.data.education.map((education, index) => (
+            {state.data.education.map((education) => (
               <motion.div
                 key={education.id}
                 initial={{ opacity: 0, y: 20 }}

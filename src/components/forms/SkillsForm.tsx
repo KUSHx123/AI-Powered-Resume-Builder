@@ -16,7 +16,6 @@ import {
   X, 
   Sparkles,
   RefreshCw,
-  Zap,
   Users,
   Globe
 } from 'lucide-react';
