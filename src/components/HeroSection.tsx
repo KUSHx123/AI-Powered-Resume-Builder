@@ -180,27 +180,27 @@ export function HeroSection({ onStartBuilding }: HeroSectionProps) {
         >
           <Button 
             variant="ghost" 
-            className="text-white hover:bg-white/10"
+            className="text-white hover:bg-white/20 hover:text-white border border-white/20 hover:border-white/40 transition-all duration-200"
             onClick={() => handleNavigation('features')}
           >
             Features
           </Button>
           <Button 
             variant="ghost" 
-            className="text-white hover:bg-white/10"
+            className="text-white hover:bg-white/20 hover:text-white border border-white/20 hover:border-white/40 transition-all duration-200"
             onClick={() => handleNavigation('templates')}
           >
             Templates
           </Button>
           <Button 
             variant="ghost" 
-            className="text-white hover:bg-white/10"
+            className="text-white hover:bg-white/20 hover:text-white border border-white/20 hover:border-white/40 transition-all duration-200"
             onClick={() => handleNavigation('pricing')}
           >
             Pricing
           </Button>
           <Button 
-            className="bg-white text-blue-900 hover:bg-gray-100"
+            className="bg-white text-blue-900 hover:bg-gray-100 font-medium shadow-lg hover:shadow-xl transition-all duration-200"
             onClick={() => handleNavigation('start')}
           >
             Start for free
@@ -263,7 +263,7 @@ export function HeroSection({ onStartBuilding }: HeroSectionProps) {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-6"
+                className="border-white/40 text-white hover:bg-white/20 hover:text-white hover:border-white/60 text-lg px-8 py-6 transition-all duration-200"
                 onClick={handlePlayDemo}
               >
                 <Play className="mr-2 h-5 w-5" />
