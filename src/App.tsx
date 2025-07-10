@@ -78,7 +78,7 @@ function AppContent() {
       </AnimatePresence>
 
       {!showOnboarding && showHero && (
-        <HeroSection />
+        <HeroSection onStartBuilding={handleStartBuilding} />
       )}
 
       {!showOnboarding && !showHero && (

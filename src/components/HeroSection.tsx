@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { useResume } from '@/contexts/ResumeContext';
 import { 
   FileText, 
   Sparkles, 
@@ -57,8 +56,11 @@ const mockResumeData = {
   skills: ['React', 'Node.js', 'Python', 'AWS', 'Docker', 'TypeScript']
 };
 
-export function HeroSection() {
-  const { dispatch } = useResume();
+interface HeroSectionProps {
+  onStartBuilding: () => void;
+}
+
+export function HeroSection({ onStartBuilding }: HeroSectionProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [typedText, setTypedText] = useState('');
@@ -103,14 +105,15 @@ export function HeroSection() {
     setCurrentStep(0);
   };
 
-  const handleStartBuilding = () => {
-    dispatch({ type: 'COMPLETE_ONBOARDING' });
-    // Scroll to the builder section or trigger app state change
-    window.location.reload(); // Simple way to restart the app in builder mode
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden" id="hero">
       {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.05%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] animate-pulse"></div>
@@ -219,7 +222,7 @@ export function HeroSection() {
               <Button 
                 size="lg" 
                 className="bg-white text-blue-900 hover:bg-gray-100 text-lg px-8 py-6"
-                onClick={handleStartBuilding}
+                onClick={onStartBuilding}
               >
                 Start building
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -438,6 +441,11 @@ export function HeroSection() {
           </motion.div>
         </div>
       </motion.div>
+
+      {/* Additional Sections for Navigation */}
+      <div id="features" className="h-20"></div>
+      <div id="templates" className="h-20"></div>
+      <div id="pricing" className="h-20"></div>
     </div>
   );
 }
