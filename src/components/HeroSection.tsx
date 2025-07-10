@@ -179,22 +179,19 @@ export function HeroSection({ onStartBuilding }: HeroSectionProps) {
           className="flex items-center space-x-4"
         >
           <Button 
-            variant="ghost" 
-            className="text-white hover:bg-white/20 hover:text-white border border-white/30 hover:border-white/50 transition-all duration-200"
+            className="bg-white/10 text-white hover:bg-white/20 hover:text-white border border-white/30 hover:border-white/50 backdrop-blur-sm font-medium shadow-lg hover:shadow-xl transition-all duration-200"
             onClick={() => handleNavigation('features')}
           >
             Features
           </Button>
           <Button 
-            variant="ghost" 
-            className="text-white hover:bg-white/20 hover:text-white border border-white/30 hover:border-white/50 transition-all duration-200"
+            className="bg-white/10 text-white hover:bg-white/20 hover:text-white border border-white/30 hover:border-white/50 backdrop-blur-sm font-medium shadow-lg hover:shadow-xl transition-all duration-200"
             onClick={() => handleNavigation('templates')}
           >
             Templates
           </Button>
           <Button 
-            variant="ghost" 
-            className="text-white hover:bg-white/20 hover:text-white border border-white/30 hover:border-white/50 transition-all duration-200"
+            className="bg-white/10 text-white hover:bg-white/20 hover:text-white border border-white/30 hover:border-white/50 backdrop-blur-sm font-medium shadow-lg hover:shadow-xl transition-all duration-200"
             onClick={() => handleNavigation('pricing')}
           >
             Pricing
@@ -263,7 +260,7 @@ export function HeroSection({ onStartBuilding }: HeroSectionProps) {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-white/50 text-white hover:bg-white/20 hover:text-white hover:border-white/70 text-lg px-8 py-6 transition-all duration-200"
+                className="bg-white/10 border-white/50 text-white hover:bg-white/20 hover:text-white hover:border-white/70 backdrop-blur-sm font-medium shadow-lg hover:shadow-xl text-lg px-8 py-6 transition-all duration-200"
                 onClick={handlePlayDemo}
               >
                 <Play className="mr-2 h-5 w-5" />
