@@ -112,10 +112,28 @@ export function HeroSection({ onStartBuilding }: HeroSectionProps) {
     }
   };
 
+  const handleNavigation = (section: string) => {
+    switch (section) {
+      case 'features':
+        scrollToSection('features-section');
+        break;
+      case 'templates':
+        scrollToSection('templates-section');
+        break;
+      case 'pricing':
+        // For now, scroll to pricing section. Later can be a separate page
+        scrollToSection('pricing-section');
+        break;
+      case 'start':
+        onStartBuilding();
+        break;
+    }
+  };
+
   return (
-    <div className="relative min-h-screen overflow-hidden" id="hero">
+    <div className="relative overflow-hidden" id="hero">
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 min-h-screen">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.05%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] animate-pulse"></div>
         
         {/* Floating Elements */}
@@ -160,16 +178,31 @@ export function HeroSection({ onStartBuilding }: HeroSectionProps) {
           animate={{ opacity: 1, x: 0 }}
           className="flex items-center space-x-4"
         >
-          <Button variant="ghost" className="text-white hover:bg-white/10">
+          <Button 
+            variant="ghost" 
+            className="text-white hover:bg-white/10"
+            onClick={() => handleNavigation('features')}
+          >
             Features
           </Button>
-          <Button variant="ghost" className="text-white hover:bg-white/10">
+          <Button 
+            variant="ghost" 
+            className="text-white hover:bg-white/10"
+            onClick={() => handleNavigation('templates')}
+          >
             Templates
           </Button>
-          <Button variant="ghost" className="text-white hover:bg-white/10">
+          <Button 
+            variant="ghost" 
+            className="text-white hover:bg-white/10"
+            onClick={() => handleNavigation('pricing')}
+          >
             Pricing
           </Button>
-          <Button className="bg-white text-blue-900 hover:bg-gray-100">
+          <Button 
+            className="bg-white text-blue-900 hover:bg-gray-100"
+            onClick={() => handleNavigation('start')}
+          >
             Start for free
           </Button>
         </motion.div>
@@ -442,10 +475,312 @@ export function HeroSection({ onStartBuilding }: HeroSectionProps) {
         </div>
       </motion.div>
 
-      {/* Additional Sections for Navigation */}
-      <div id="features" className="h-20"></div>
-      <div id="templates" className="h-20"></div>
-      <div id="pricing" className="h-20"></div>
+      {/* Features Section */}
+      <section id="features-section" className="relative bg-white py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl font-bold text-gray-900 mb-4"
+            >
+              Powerful Features for Perfect Resumes
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+            >
+              Everything you need to create, customize, and optimize your resume for any job application
+            </motion.p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: Sparkles,
+                title: 'AI-Powered Content',
+                description: 'Generate compelling bullet points, summaries, and skill suggestions tailored to your industry.',
+                color: 'from-blue-500 to-purple-600'
+              },
+              {
+                icon: FileText,
+                title: 'Professional Templates',
+                description: 'Choose from multiple ATS-optimized templates designed by career experts.',
+                color: 'from-green-500 to-blue-600'
+              },
+              {
+                icon: Download,
+                title: 'Instant PDF Export',
+                description: 'Download your resume as a high-quality PDF ready for job applications.',
+                color: 'from-purple-500 to-pink-600'
+              },
+              {
+                icon: Shield,
+                title: 'ATS-Optimized',
+                description: 'Ensure your resume passes through Applicant Tracking Systems successfully.',
+                color: 'from-orange-500 to-red-600'
+              },
+              {
+                icon: Zap,
+                title: 'Real-time Preview',
+                description: 'See your changes instantly with our live preview feature.',
+                color: 'from-yellow-500 to-orange-600'
+              },
+              {
+                icon: Users,
+                title: 'Expert Guidance',
+                description: 'Get personalized tips and suggestions from our AI career assistant.',
+                color: 'from-teal-500 to-green-600'
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-gray-100"
+              >
+                <div className={`w-12 h-12 bg-gradient-to-r ${feature.color} rounded-lg flex items-center justify-center mb-4`}>
+                  <feature.icon className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Templates Section */}
+      <section id="templates-section" className="relative bg-gray-50 py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl font-bold text-gray-900 mb-4"
+            >
+              Professional Templates
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+            >
+              Choose from our collection of professionally designed templates, each optimized for different industries and career levels
+            </motion.p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                name: 'Modern',
+                description: 'Clean and contemporary design',
+                color: 'from-blue-500 to-purple-600',
+                popular: true
+              },
+              {
+                name: 'Professional',
+                description: 'Traditional corporate layout',
+                color: 'from-gray-600 to-gray-800',
+                popular: false
+              },
+              {
+                name: 'Creative',
+                description: 'Bold design for creative fields',
+                color: 'from-pink-500 to-orange-500',
+                popular: false
+              },
+              {
+                name: 'Minimal',
+                description: 'Clean, typography-focused',
+                color: 'from-green-500 to-teal-600',
+                popular: false
+              }
+            ].map((template, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="relative bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+              >
+                {template.popular && (
+                  <div className="absolute top-4 right-4 z-10">
+                    <Badge className="bg-yellow-500 text-yellow-900">
+                      <Star className="h-3 w-3 mr-1" />
+                      Popular
+                    </Badge>
+                  </div>
+                )}
+                <div className={`h-48 bg-gradient-to-br ${template.color} relative`}>
+                  <div className="absolute inset-4 bg-white/90 rounded-lg p-4">
+                    <div className="space-y-2">
+                      <div className="h-3 bg-gray-800 rounded w-3/4"></div>
+                      <div className="h-2 bg-gray-600 rounded w-1/2"></div>
+                      <div className="space-y-1 mt-4">
+                        <div className="h-1 bg-gray-400 rounded"></div>
+                        <div className="h-1 bg-gray-400 rounded w-4/5"></div>
+                        <div className="h-1 bg-gray-400 rounded w-3/5"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">{template.name}</h3>
+                  <p className="text-gray-600 text-sm">{template.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <Button 
+              size="lg" 
+              className="bg-blue-600 hover:bg-blue-700"
+              onClick={() => handleNavigation('start')}
+            >
+              Try All Templates
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing-section" className="relative bg-white py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl font-bold text-gray-900 mb-4"
+            >
+              Simple, Transparent Pricing
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+            >
+              Choose the plan that works best for you. All plans include our core features and AI assistance.
+            </motion.p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              {
+                name: 'Free',
+                price: '$0',
+                period: 'forever',
+                description: 'Perfect for getting started',
+                features: [
+                  '1 Resume',
+                  'Basic Templates',
+                  'PDF Export',
+                  'Basic AI Assistance'
+                ],
+                popular: false,
+                cta: 'Get Started'
+              },
+              {
+                name: 'Pro',
+                price: '$9',
+                period: 'per month',
+                description: 'Best for job seekers',
+                features: [
+                  'Unlimited Resumes',
+                  'All Premium Templates',
+                  'Advanced AI Features',
+                  'Cover Letter Builder',
+                  'Priority Support'
+                ],
+                popular: true,
+                cta: 'Start Free Trial'
+              },
+              {
+                name: 'Enterprise',
+                price: '$29',
+                period: 'per month',
+                description: 'For teams and organizations',
+                features: [
+                  'Everything in Pro',
+                  'Team Management',
+                  'Custom Branding',
+                  'Analytics Dashboard',
+                  'Dedicated Support'
+                ],
+                popular: false,
+                cta: 'Contact Sales'
+              }
+            ].map((plan, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className={`relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow ${
+                  plan.popular ? 'ring-2 ring-blue-500 scale-105' : 'border border-gray-200'
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <Badge className="bg-blue-500 text-white px-4 py-1">
+                      Most Popular
+                    </Badge>
+                  </div>
+                )}
+                
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                  <p className="text-gray-600 mb-4">{plan.description}</p>
+                  <div className="flex items-baseline justify-center">
+                    <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
+                    <span className="text-gray-600 ml-2">/{plan.period}</span>
+                  </div>
+                </div>
+
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-center">
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button 
+                  className={`w-full ${
+                    plan.popular 
+                      ? 'bg-blue-600 hover:bg-blue-700' 
+                      : 'bg-gray-900 hover:bg-gray-800'
+                  }`}
+                  onClick={() => handleNavigation('start')}
+                >
+                  {plan.cta}
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
