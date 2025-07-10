@@ -51,6 +51,7 @@ function AppContent() {
 
   const handleStartBuilding = () => {
     setShowHero(false);
+    setShowOnboarding(false);
   };
 
   const handleTogglePreview = () => {

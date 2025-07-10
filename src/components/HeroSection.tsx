@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { useResume } from '@/contexts/ResumeContext';
 import { 
   FileText, 
   Sparkles, 
@@ -57,6 +58,7 @@ const mockResumeData = {
 };
 
 export function HeroSection() {
+  const { dispatch } = useResume();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [typedText, setTypedText] = useState('');
@@ -99,6 +101,12 @@ export function HeroSection() {
     setIsPlaying(true);
     setShowDemo(true);
     setCurrentStep(0);
+  };
+
+  const handleStartBuilding = () => {
+    dispatch({ type: 'COMPLETE_ONBOARDING' });
+    // Scroll to the builder section or trigger app state change
+    window.location.reload(); // Simple way to restart the app in builder mode
   };
 
   return (
@@ -211,7 +219,7 @@ export function HeroSection() {
               <Button 
                 size="lg" 
                 className="bg-white text-blue-900 hover:bg-gray-100 text-lg px-8 py-6"
-                onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+                onClick={handleStartBuilding}
               >
                 Start building
                 <ArrowRight className="ml-2 h-5 w-5" />
