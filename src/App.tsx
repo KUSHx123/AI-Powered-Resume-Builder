@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ResumeProvider } from '@/contexts/ResumeContext';
+import { HeroSection } from '@/components/HeroSection';
 import { Header } from '@/components/layout/Header';
 import { ResumeBuilder } from '@/components/ResumeBuilder';
 import { Onboarding } from '@/components/Onboarding';
@@ -15,6 +16,7 @@ import './App.css';
 function AppContent() {
   const { state } = useResume();
   const [showOnboarding, setShowOnboarding] = useState(!state.onboardingComplete);
+  const [showHero, setShowHero] = useState(true);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
@@ -47,6 +49,10 @@ function AppContent() {
     setShowOnboarding(false);
   };
 
+  const handleStartBuilding = () => {
+    setShowHero(false);
+  };
+
   const handleTogglePreview = () => {
     setShowPreview(!showPreview);
   };
@@ -56,7 +62,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+    <div className="min-h-screen">
       <AnimatePresence mode="wait">
         {showOnboarding && (
           <motion.div
@@ -70,7 +76,12 @@ function AppContent() {
         )}
       </AnimatePresence>
 
-      {!showOnboarding && (
+      {!showOnboarding && showHero && (
+        <HeroSection />
+      )}
+
+      {!showOnboarding && !showHero && (
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -87,6 +98,7 @@ function AppContent() {
             <ResumeBuilder showPreview={showPreview} />
           </main>
         </motion.div>
+        </div>
       )}
 
       <TemplateSelector
