@@ -20,7 +20,8 @@ type ResumeAction =
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'TOGGLE_DARK_MODE' }
   | { type: 'COMPLETE_ONBOARDING' }
-  | { type: 'LOAD_DATA'; payload: ResumeData };
+  | { type: 'LOAD_DATA'; payload: ResumeData }
+  | { type: 'RESET_DATA' };
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -93,6 +94,8 @@ function resumeReducer(state: ResumeState, action: ResumeAction): ResumeState {
       return { ...state, onboardingComplete: true };
     case 'LOAD_DATA':
       return { ...state, data: action.payload };
+    case 'RESET_DATA':
+      return { ...state, data: initialData };
     default:
       return state;
   }
@@ -111,6 +114,7 @@ interface ResumeContextType {
   toggleDarkMode: () => void;
   saveToLocalStorage: () => void;
   loadFromLocalStorage: () => void;
+  resetResumeData: () => void;
 }
 
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
@@ -209,6 +213,12 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const resetResumeData = () => {
+    dispatch({ type: 'RESET_DATA' });
+    // Also clear from localStorage
+    localStorage.removeItem('resumeData');
+  };
+
   return (
     <ResumeContext.Provider
       value={{
@@ -224,6 +234,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
         toggleDarkMode,
         saveToLocalStorage,
         loadFromLocalStorage,
+        resetResumeData,
       }}
     >
       {children}

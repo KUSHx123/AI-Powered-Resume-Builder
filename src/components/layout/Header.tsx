@@ -1,6 +1,17 @@
-import { Moon, Sun, Download, Save, Eye, Palette } from 'lucide-react';
+import { Moon, Sun, Download, Save, Eye, Palette, RotateCcw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { 
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { useResume } from '@/contexts/ResumeContext';
 import { motion } from 'framer-motion';
 import {
@@ -18,7 +29,7 @@ interface HeaderProps {
 }
 
 export function Header({ onExportPDF, onTogglePreview, showPreview, onOpenTemplates }: HeaderProps) {
-  const { state, toggleDarkMode, saveToLocalStorage } = useResume();
+  const { state, toggleDarkMode, saveToLocalStorage, resetResumeData } = useResume();
   const navigate = useNavigate();
 
   return (
@@ -46,6 +57,36 @@ export function Header({ onExportPDF, onTogglePreview, showPreview, onOpenTempla
           </div>
 
           <div className="flex items-center space-x-2">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="hidden md:flex items-center space-x-2 text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                  <span>Reset</span>
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Reset Resume Data</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to reset all resume data? This action cannot be undone and will clear all your personal information, experience, education, skills, and projects.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction 
+                    onClick={resetResumeData}
+                    className="bg-red-600 hover:bg-red-700"
+                  >
+                    Reset All Data
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+
             <Button
               variant="outline"
               size="sm"
